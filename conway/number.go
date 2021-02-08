@@ -1,17 +1,14 @@
 package conway
 
-type Int int
+func Int(n int) *Game {
+	result := &Game{}
 
-func (i Int) L() []Game {
-	if int(i) > 0 {
-		return []Game{Int(i - 1)}
+	if int(n) > 0 {
+		result.L = []*Game{Int(n - 1)}
 	}
-	return []Game{}
-}
+	if int(n) < 0 {
+		result.R = []*Game{Int(n + 1)}
+	}
 
-func (i Int) R() []Game {
-	if int(i) < 0 {
-		return []Game{Int(i + 1)}
-	}
-	return []Game{}
+	return result
 }

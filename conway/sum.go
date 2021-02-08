@@ -1,61 +1,22 @@
 package conway
 
-func add(gs ...*unfolded) *unfolded {
-	var ls, rs []*unfolded
+func Add(gs ...*Game) *Game {
+	var ls, rs []*Game
 
-	var old *unfolded
+	var old *Game
 
 	for n, g := range gs {
 		old = gs[n]
-		for _, l := range g.ls {
+		for _, l := range g.L {
 			gs[n] = l
-			ls = append(ls, add(gs...))
+			ls = append(ls, Add(gs...))
 		}
-		for _, r := range g.rs {
+		for _, r := range g.R {
 			gs[n] = r
-			rs = append(rs, add(gs...))
+			rs = append(rs, Add(gs...))
 		}
 		gs[n] = old
 	}
 
-	return &unfolded{ls: ls, rs: rs}
-}
-
-func Add(gs ...Game) Game {
-	//return &sum{gs: gs}
-	ugs := make([]*unfolded, 0, len(gs))
-	for _, g := range gs {
-		ugs = append(ugs, unfold(g))
-	}
-	return add(ugs...)
-}
-
-type sum struct {
-	gs []Game
-}
-
-func (s *sum) L() (res []Game) {
-	for n, g := range s.gs {
-		for _, l := range g.L() {
-			summands := make([]Game, 0, len(s.gs))
-			summands = append(summands, s.gs[0:n]...)
-			summands = append(summands, l)
-			summands = append(summands, s.gs[n+1:len(s.gs)]...)
-			res = append(res, Add(summands...))
-		}
-	}
-	return
-}
-
-func (s *sum) R() (res []Game) {
-	for n, g := range s.gs {
-		for _, r := range g.R() {
-			summands := make([]Game, 0, len(s.gs))
-			summands = append(summands, s.gs[0:n]...)
-			summands = append(summands, r)
-			summands = append(summands, s.gs[n+1:len(s.gs)]...)
-			res = append(res, Add(summands...))
-		}
-	}
-	return
+	return &Game{L: ls, R: rs}
 }
