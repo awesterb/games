@@ -6,6 +6,6 @@ import (
 
 func ExampleSimplify() {
 	fmt.Println(Describe(
-		Simplify(Add(Int(13), Int(-12)))))
+		Simplify(Add(Int(3), Int(-2)))))
 	// Output:  {{|}|}
 }
